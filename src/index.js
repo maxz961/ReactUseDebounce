@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 import "./styles.css";
 
-// implement the useDebounce custom hook
-// it should return the original value until
-// the value has not changed in delay ms
-// you may change code only in function below
-// also you can import whatever you need
 function useDebounce(value, delay) {
-  return value;
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(
+    () => {
+      const handler = setTimeout(() => {
+        setDebouncedValue(value);
+      }, delay);
+      return () => {
+        clearTimeout(handler);
+      };
+    },
+    [value, delay]
+  );
+
+  return debouncedValue;
+
 }
 
 function App() {
